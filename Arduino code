@@ -1,0 +1,43 @@
+#include <Servo.h>
+
+Servo xservo;  // Create Servo object for X-axis
+Servo yservo;  // Create Servo object for Y-axis
+Servo fireservo;  // Create Servo object for firing mechanism
+
+String receivedData = ""; // To store the received string
+int distance_x = 0;        // To store the parsed X distance
+int distance_y = 0;        // To store the parsed Y distance
+
+String inputString;
+
+void setup() 
+{
+  Serial.begin(9600); // Initialize Serial communication at 9600 baud
+  while (!Serial) {
+    // Wait for the Serial port to be available (for Leonardo/Micro)
+  }
+  // Attach servos to their respective pins
+  xservo.attach(9);   // Attach the X-axis servo to pin 9
+  yservo.attach(10);  // Attach the Y-axis servo to pin 10
+  fireservo.attach(11); // Attach the firing mechanism servo to pin 11
+  yservo.write(90);
+  xservo.write(90);
+
+}
+void loop()
+{
+  while(Serial.available())
+  {
+    inputString = Serial.readStringUntil('\n');
+    Serial.println(inputString);
+    int x_axis = inputString.substring(0, inputString.indexOf(',')).toInt();
+    int y_axis = inputString.substring(inputString.indexOf(',') + 1).toInt();
+    int x = map(x_axis, 0,640 , 0, 180);
+    int y = map(y_axis, 0,480 , 180, 0);
+
+
+    // xservo.write(x);
+    yservo.write(y);
+
+  }
+}
