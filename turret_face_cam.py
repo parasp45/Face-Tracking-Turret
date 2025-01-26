@@ -13,7 +13,7 @@ vid = cv.VideoCapture(0)
 isture = True
 
 cam_center = 0,0
-face_center = 0,320
+face_center = 0,0
 
 # Rotation
 def rotate(img, angle, rotPoint=None):
@@ -46,20 +46,19 @@ while True:
     istrue, frame = vid.read()
     if isture == False:
         break
+    
     cam_center = 0,0
-    face_center = 0,320
-
+    face_center = 0,0
+    
 
     cam_center = cam_center_finder(frame)
     
     # frame = cv.flip(frame, 0)
-
-
    
-    face= face_detection(frame)
+    face = face_detection(frame)
     
-    print('v')
-    print(face)
+    # print('v')
+    # print(face)
 
     for x,y,w,h in face:
         cv.rectangle(frame,(x,y),(x+w,y+h),(0,255,0), thickness=2)
@@ -72,13 +71,25 @@ while True:
 
     (cam_x , cam_y) = cam_center
     (face_x , face_y) = face_center
+  
+    #   if not face is found give zero value (no movement)
+    
+    print (face)
+    
+    if len(face)== 0: 
+        distance_x = 0
+        distance_y = 0  
+    else:
+        distance_x = cam_x - face_x 
+        distance_y = cam_y - face_y 
+   
+    # print (cam_center)
+    # print (face_center)
 
-    distance_x = cam_x - face_x 
-    distance_y = cam_y - face_y 
-    print (cam_center)
-    print (face_center)
+    print(face_x, face_y)
+    print(distance_x,distance_y)
 
-    distance = f"{face_x},{face_y}\n"
+    distance = f"{distance_x},{distance_y}\n"
     
     # arduino.write( distance.encode())
 
