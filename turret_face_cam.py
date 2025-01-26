@@ -8,7 +8,7 @@ import time
 # arduino = serial.Serial(port='COM4',baudrate= 9600, timeout=0)
 # Wait for the Arduino to initializead
 
-vid = cv.VideoCapture(0)
+vid = cv.VideoCapture(1)
 
 isture = True
 
@@ -53,7 +53,7 @@ while True:
 
     cam_center = cam_center_finder(frame)
     
-    # frame = cv.flip(frame, 0)
+    frame = cv.flip(frame, 0)
    
     face = face_detection(frame)
     
@@ -75,8 +75,8 @@ while True:
     #   if not face is found give zero value (no movement)
     
     print (face)
-    
-    if len(face)== 0: 
+
+    if len(face) == 0: 
         distance_x = 0
         distance_y = 0  
     else:
